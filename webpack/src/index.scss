@@ -1,0 +1,26 @@
+@import "~bootstrap/dist/css/bootstrap.css";
+
+::selection {
+  background: rgba(255, 255, 125, 0.99);
+  color: #032764;
+}
+
+[data-target="exec.output"] {
+  code {
+    margin-bottom: .25em;
+  }
+}
+
+[contenteditable],
+input,
+textarea {
+  &:focus {
+    box-shadow: none!important;
+    outline: 0px solid transparent;
+  }
+}
+
+html,
+body {
+  overflow: hidden;
+}

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html class='h-100'>
+  <head>
+    <meta charset="UTF-8">
+    <title>Jack-Jack</title>
+    <link rel="stylesheet" href="./dist/bundle-main.css" />
+  </head>
+  <body class='h-100'>
+    <div id="app"></div>
+
+    <script>
+      window.ChildProcess = require('child_process')
+      window.fs = require('fs')
+      window.remote = require('electron').remote
+      window.electronStorage = require('electron-json-storage')
+      electronStorage.get('config', (error, config) => {
+        if (error) {
+          alert('load config failed')
+          remote.getCurrentWindow().close()
+        } else {
+          window.appConfig = config
+          require('./dist/bundle-main')
+        }
+      })
+    </script>
+  </body>
+</html>

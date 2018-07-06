@@ -1,0 +1,21 @@
+{
+  "name": "Jack-Jack",
+  "version": "0.0.1",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-packager . jack-jack --ignore=webpack --overwrite --app-version=0.0.1 --icon=assets/logo.icns --platform=darwin --arch=x64 --electron-version=2.0.4",
+    "webpack": "cd webpack && npm run webpack"
+  },
+  "repository": "https://github.com/beviz/jack-jack",
+  "keywords": [
+    "Electron",
+    "command",
+    "shell"
+  ],
+  "author": "Bevis",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "electron-json-storage": "^4.1.0"
+  }
+}

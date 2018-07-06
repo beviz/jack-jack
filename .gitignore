@@ -1,0 +1,10 @@
+dist
+node_modules
+
+jack-jack-*
+
+yarn.lock
+yarn-error.log
+package-lock.json
+
+.DS_Store

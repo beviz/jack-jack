@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html class='h-100'>
+  <head>
+    <meta charset="UTF-8">
+    <title>Jack-Jack</title>
+    <link rel="stylesheet" href="./dist/bundle-main.css" />
+  </head>
+  <body class='h-100'>
+    <div class="p-2">
+      <h6>Select location to store commands:</h6>
+      <div class="input-group input-group-sm">
+        <input class="form-control" id="path" autofocus>
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" type="button" id="select">...</button>
+          <button class="btn btn-outline-primary" type="button" id="save">Save</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const remote = require('electron').remote
+      const electronStorage = require('electron-json-storage')
+      const fs = require('fs')
+      const _ = require('lodash')
+
+      const pathInput = document.getElementById('path')
+      pathInput.addEventListener('blur', function() {
+        this.focus()
+      })
+
+      document.getElementById('select').addEventListener('click', () => {
+        remote.dialog.showOpenDialog(remote.getCurrentWindow(), {
+          properties: ['openDirectory']
+        }, function(path) {
+          if (path) {
+            pathInput.value = path
+          }
+        })
+      })
+
+      document.getElementById('save').addEventListener('click', () => {
+        const path = pathInput.value
+
+        if (_.isEmpty(path)) {
+          return
+        }
+        electronStorage.set('config', { commandsPath: path }, (error) => {
+          if (error) {
+            return alert(error)
+          }
+          if (!fs.existsSync(path)) {
+            return alert(`${path}: no such directory`)
+          } else if (!fs.lstatSync(path).isDirectory()) {
+            return alert(`${path} is not a directory`)
+          }
+
+          remote.getCurrentWindow().emit('done')
+        })
+      })
+    </script>
+  </body>
+</html>
