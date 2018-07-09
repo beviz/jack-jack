@@ -56,7 +56,10 @@
 
         return !error
       },
-
+      handleGlobalEvents() {
+        this.handleUnload()
+        this.handleReload()
+      },
       handleUnload() {
         let closable = false
 
@@ -80,7 +83,8 @@
             }
           }
         }
-
+      },
+      handleReload() {
         remote.getCurrentWindow().on('reload', function() {
           const runningCommanders = Commander.running
           if (runningCommanders.length) {

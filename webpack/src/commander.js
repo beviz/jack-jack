@@ -254,7 +254,10 @@ export default class Commander {
 
   static get autoruns() {
     return _.filter(this.all, (commander) => {
-      return [true, 'true', process.platform].includes(commander.autorun)
+      const config = _.compact(commander.autorun.toString().split(' '))
+      return !!_.find(config, (one) => {
+        return ['true', remote.process.platform].includes(one.toLowerCase())
+      })
     })
   }
 
