@@ -5,7 +5,8 @@
   "scripts": {
     "start": "electron .",
     "build": "electron-packager . jack-jack --ignore=webpack --overwrite --app-version=0.0.1 --icon=assets/logo.icns --platform=darwin --arch=x64 --electron-version=2.0.4",
-    "webpack": "cd webpack && npm run webpack"
+    "webpack": "cd webpack && npm run webpack",
+    "watch": "cd webpack && npm run watch"
   },
   "repository": "https://github.com/beviz/jack-jack",
   "keywords": [

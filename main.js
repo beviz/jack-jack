@@ -1,5 +1,5 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, dialog, Tray, Menu } = require('electron')
+const { app, BrowserWindow, dialog, Tray, Menu, shell } = require('electron')
 const electronStorage = require('electron-json-storage')
 const _ = require('lodash')
 const path = require('path')
@@ -47,6 +47,15 @@ function createTray() {
   const trayIconName = process.platform === 'darwin' ? 'icon-black.png' : 'icon-white.png'
   const tray = new Tray(path.join(__dirname, `assets/${trayIconName}`))
   var contextMenu = Menu.buildFromTemplate([
+    {
+      label: 'Show config in Finder',
+      click: () => {
+        electronStorage.get('config', (error, data) => {
+          shell.openItem(data.commandsPath)
+        })
+      }
+    },
+    { label: 'Reload config', click: () => { mainWindow.emit('reload') } },
     { label: 'Quit', click: () => { mainWindow.close() } }
   ])
   tray.setToolTip('Jack-Jack')

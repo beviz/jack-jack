@@ -80,6 +80,19 @@
             }
           }
         }
+
+        remote.getCurrentWindow().on('reload', function() {
+          const runningCommanders = Commander.running
+          if (runningCommanders.length) {
+            if (confirm(`${runningCommanders.length} processes will be exited, are you sure?`)) {
+              Commander.stopAll()
+            } else {
+              return false
+            }
+          }
+
+          remote.getCurrentWindow().reload()
+        })
       },
       switchTo(commander) {
         this.commander = commander
