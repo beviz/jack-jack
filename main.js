@@ -7,6 +7,7 @@ const path = require('path')
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
+let isFocusingMainWindow = false
 
 function createWindow () {
   // Create the browser window.
@@ -32,11 +33,23 @@ function createWindow () {
     // when you should delete the corresponding element.
     mainWindow = null
   })
+
+  mainWindow.on('focus', function() {
+    isFocusingMainWindow = true
+  })
+
+  mainWindow.on('blur', function() {
+    isFocusingMainWindow = false
+  })
 }
 
 function toggleWindow() {
   if (mainWindow.isVisible()) {
-    mainWindow.hide()
+    if (isFocusingMainWindow) {
+      mainWindow.hide()
+    } else {
+      mainWindow.focus()
+    }
   } else {
     mainWindow.show()
     mainWindow.focus()
