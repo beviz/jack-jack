@@ -93,7 +93,7 @@ export default class Commander {
   get commandOptions() {
     return _.omit({
       cwd: this.dir.replace(/^~/, Commander.homeDir),
-      env: this.env,
+      env: remote.process.env,
       shell: this.shell || false,
       windowsHide: true
     }, _.isUndefined)
@@ -143,10 +143,12 @@ export default class Commander {
       this.handleCascade(true)
     }
 
+    this.processor.stdout.setEncoding('utf8')
     this.processor.stdout.on('data', (data) => {
       this.info(data.toString().trim())
     })
 
+    this.processor.stderr.setEncoding('utf8')
     this.processor.stderr.on('data', (data) => {
       this.info(data.toString().trim())
     })
@@ -157,7 +159,7 @@ export default class Commander {
     })
 
     this.processor.on('error', (code, signal) => {
-      this.error(signal + code.toString())
+      this.error(code.toString())
     })
   }
 
