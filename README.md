@@ -1,6 +1,6 @@
-# Download
+Manage and run your common commands in one place. Cross-platform, based on [Electron](http://electron.atom.io).
 
-[https://github.com/beviz/jack-jack/releases]()
+[Download](https://github.com/beviz/jack-jack/releases)
 
 Example config yaml:
 
@@ -27,8 +27,18 @@ mode: conflict
 dir: '~'
 platform: win32 darwin
 commands:
-  - name: gost 8080
-    command: gost.exe -L=http://:8080 =F=https://name:pwd@host:port -D
+  - name: gost proxy for host 1
+    command: gost.exe -L=http://:8080 =F=https://name:pwd@host1:port -D
     tags: https proxy
     autorun: win32
+  - name: gost proxy for host 2
+    command: gost.exe -L=http://:8080 =F=https://name:pwd@host2:port -D
+    tags: https proxy
+    dir: ~/host2
 ```
+
+TODO:
+ - beatify UI
+ - grouping display
+ - input commands
+ - edit commands
