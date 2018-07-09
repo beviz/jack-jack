@@ -40,7 +40,7 @@
   }
 </script>
 
-<style lang='scss'>
+<style lang='scss' scoped>
   .logger {
      flex: 1;
      overflow-y: auto;

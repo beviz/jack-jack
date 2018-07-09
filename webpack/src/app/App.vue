@@ -1,7 +1,7 @@
 <template>
   <div data-controller='exec' class='h-100' style='overflow: hidden'>
     <div class="row h-100">
-      <div class="col-auto h-100 pr-0" data-controller='sidebar' style='width: 240px overflow: auto'>
+      <div class="col-auto h-100 pr-0 sidebar-wrapper">
         <Sidebar @switch="switchTo"/>
       </div>
       <div class="col h-100 pl-0">
@@ -32,7 +32,7 @@
       if (!this.checkDataSource()) {
         return
       }
-      this.handleUnload()
+      this.handleGlobalEvents()
     },
     methods: {
       checkDataSource() {
@@ -104,3 +104,9 @@
     }
   }
 </script>
+
+<style lang='scss' scoped>
+  .sidebar-wrapper {
+    min-width: 260px !important;
+  }
+</style>

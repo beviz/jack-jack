@@ -18,7 +18,7 @@
                  :class="{ 'invisible': !commander.running && activeCommander != commander }">
               <a @click="runOrStop(commander)" href='#'
                  :class="{ 'text-danger': commander.running }">
-                <font-awesome-icon :icon="commander.running ? 'stop-circle' : 'play-circle'" />
+                <font-awesome-icon :icon="commander.running ? 'stop-circle' : 'play-circle'" size="lg" />
               </a>
             </div>
           </div>
@@ -71,7 +71,7 @@
   }
 </script>
 
-<style lang='scss'>
+<style lang='scss' scoped>
 .sidebar {
   border-width: 0 1px 0 0 !important;
 

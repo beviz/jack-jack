@@ -16,9 +16,7 @@ export default class Commander {
       filePath: ''
     }
 
-    source = _.omitBy(source, (value) => {
-      return value === undefined || value === '' || value === null || value === NaN
-    })
+    source = _.omitBy(source, (value) => _.trim(value) === '' )
 
     _.assign(this, defaults, source, additional, {
       processor: null,
@@ -233,8 +231,11 @@ export default class Commander {
     if (!this._all) {
       const data = store.load()
       this._all = []
-
       _.each(data, (config, filePath) => {
+        if (!Commander.inSpecityPlatforms(config.platform)) {
+          return
+        }
+
         (config.commands || []).forEach((source) => {
           const additional = _.omitBy({
             dir: source.dir || config.dir,
@@ -252,12 +253,19 @@ export default class Commander {
     return this._all.slice()
   }
 
+  static inSpecityPlatforms(platform) {
+    const platforms = _.compact(_.trim(platform).split(' '))
+    if (platforms.length === 0) {
+      return true
+    }
+    return !!_.find(platforms, (platform) => {
+      return ['all', remote.process.platform].includes(platform.toLowerCase())
+    })
+  }
+
   static get autoruns() {
     return _.filter(this.all, (commander) => {
-      const config = _.compact(commander.autorun.toString().split(' '))
-      return !!_.find(config, (one) => {
-        return ['true', remote.process.platform].includes(one.toLowerCase())
-      })
+      return Commander.inSpecityPlatforms(commander.autorun)
     })
   }
 
