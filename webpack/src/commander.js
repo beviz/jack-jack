@@ -99,7 +99,7 @@ export default class Commander {
     }, _.isUndefined)
   }
 
-  async handleCascade(toRun) {
+  handleCascade(toRun) {
     if (_.isEmpty(this.mode)) {
       return
     }
@@ -123,9 +123,13 @@ export default class Commander {
     }
   }
 
-  async run(cascade = true) {
+  run(cascade = true) {
     if (this.running) {
       return
+    }
+
+    if (cascade === true) {
+      this.handleCascade(true)
     }
 
     this.clearLogs()
@@ -139,10 +143,10 @@ export default class Commander {
     const file = args.shift()
     this.processor = ChildProcess.spawn(file, args, commandOptions)
     this.running = true
-    if (cascade === true) {
-      this.handleCascade(true)
-    }
+    this.handleProcessorLog()
+  }
 
+  handleProcessorLog() {
     this.processor.stdout.setEncoding('utf8')
     this.processor.stdout.on('data', (data) => {
       this.info(data.toString().trim())
@@ -171,7 +175,7 @@ export default class Commander {
     }
   }
 
-  async stop(cascade = true) {
+  stop(cascade = true) {
     if (this.running && this.processor && !this.processor.killed) {
       this.processor.kill('SIGINT')
       if (cascade === true) {
