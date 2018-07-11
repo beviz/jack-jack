@@ -34,26 +34,15 @@ function createWindow () {
     mainWindow = null
   })
 
-  mainWindow.on('focus', function() {
-    isFocusingMainWindow = true
-  })
-
-  mainWindow.on('blur', function() {
-    isFocusingMainWindow = false
+  mainWindow.on('minimize', function(e) {
+    mainWindow.hide()
+    e.returnValue = false
   })
 }
 
-function toggleWindow() {
-  if (mainWindow.isVisible()) {
-    if (isFocusingMainWindow) {
-      mainWindow.hide()
-    } else {
-      mainWindow.focus()
-    }
-  } else {
-    mainWindow.show()
-    mainWindow.focus()
-  }
+function showWindow() {
+  mainWindow.show()
+  mainWindow.focus()
 }
 
 function createTray() {
@@ -72,8 +61,8 @@ function createTray() {
     { label: 'Quit', click: () => { mainWindow.close() } }
   ])
   tray.setToolTip('Jack-Jack')
-  tray.on('click', toggleWindow)
-  tray.on('double-click', toggleWindow)
+  tray.on('click', showWindow)
+  tray.on('double-click', showWindow)
   tray.on('right-click', () => tray.popUpContextMenu(contextMenu))
 }
 
