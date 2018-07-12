@@ -7,6 +7,7 @@ const path = require('path')
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
+let tray
 let isFocusingMainWindow = false
 
 function createWindow () {
@@ -47,7 +48,7 @@ function showWindow() {
 
 function createTray() {
   const trayIconName = process.platform === 'darwin' ? 'icon-black.png' : 'icon-white.png'
-  const tray = new Tray(path.join(__dirname, `assets/${trayIconName}`))
+  tray = new Tray(path.join(__dirname, `assets/${trayIconName}`))
   var contextMenu = Menu.buildFromTemplate([
     {
       label: 'Show config in Finder',
