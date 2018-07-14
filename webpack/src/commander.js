@@ -186,6 +186,7 @@ export default class Commander {
 
   log(content, type) {
     this.logs.push({ content, type: type })
+    this.logs.splice(0, this.logs.length - 300)
   }
 
   clearLogs() {
