@@ -18,6 +18,7 @@ function createWindow () {
     minWidth: 600,
     minHeight: 400,
     show: false,
+    minimizable: process.platform !== 'darwin',
     icon: path.join(__dirname, 'assets/logo.png')
   })
 
