@@ -35,7 +35,28 @@
     methods: {
       runOrStop() {
         this.commander.runOrStop()
+      },
+      followLogger() {
+        let follow = true
+
+        const logger = this.$el.querySelector('.logger')
+        logger.addEventListener('DOMNodeInserted', function() {
+          if (follow) {
+            logger.scrollTo(0, logger.scrollHeight)
+          }
+        })
+
+        logger.addEventListener('scroll', function() {
+          if (logger.scrollTop + logger.offsetHeight >= logger.scrollHeight) {
+            follow = true
+          } else {
+            follow = false
+          }
+        })
       }
+    },
+    mounted() {
+      this.followLogger()
     }
   }
 </script>
