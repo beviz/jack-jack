@@ -35,6 +35,14 @@ function createWindow () {
     mainWindow = null
   })
 
+  mainWindow.on('focus', function() {
+    isFocusingMainWindow = true
+  })
+
+  mainWindow.on('blur', function() {
+    isFocusingMainWindow = false
+  })
+
   mainWindow.on('minimize', function(e) {
     mainWindow.hide()
     e.returnValue = false
@@ -44,6 +52,14 @@ function createWindow () {
 function showWindow() {
   mainWindow.show()
   mainWindow.focus()
+}
+
+function toggleWindow() {
+  if (isFocusingMainWindow) {
+    mainWindow.hide()
+  } else {
+    showWindow()
+  }
 }
 
 function getTrayIconPath() {
@@ -66,8 +82,9 @@ function createTray() {
     { label: 'Quit', click: () => { mainWindow.close() } }
   ])
   tray.setToolTip('Jack-Jack')
-  tray.on('click', showWindow)
-  tray.on('double-click', showWindow)
+  const windowHandler = process.platform === 'darwin' ? toggleWindow : showWindow
+  tray.on('click', windowHandler)
+  tray.on('double-click', windowHandler)
   tray.on('right-click', () => tray.popUpContextMenu(contextMenu))
 }
 
