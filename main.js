@@ -1,5 +1,5 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, dialog, Tray, Menu, shell } = require('electron')
+const { app, BrowserWindow, systemPreferences, dialog, Tray, Menu, shell } = require('electron')
 const electronStorage = require('electron-json-storage')
 const _ = require('lodash')
 const path = require('path')
@@ -46,8 +46,12 @@ function showWindow() {
   mainWindow.focus()
 }
 
+function getTrayIconPath() {
+  return (process.platform === 'darwin' && !systemPreferences.isDarkMode()) ? 'icon-black.png' : 'icon-white.png'
+}
+
 function createTray() {
-  const trayIconName = process.platform === 'darwin' ? 'icon-black.png' : 'icon-white.png'
+  const trayIconName = getTrayIconPath()
   tray = new Tray(path.join(__dirname, `assets/${trayIconName}`))
   var contextMenu = Menu.buildFromTemplate([
     {
